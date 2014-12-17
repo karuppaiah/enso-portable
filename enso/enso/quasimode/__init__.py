@@ -1,6 +1,6 @@
 # Copyright (c) 2008, Humanized, Inc.
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
 #
@@ -14,7 +14,7 @@
 #    3. Neither the name of Enso nor the names of its contributors may
 #       be used to endorse or promote products derived from this
 #       software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY Humanized, Inc. ``AS IS'' AND ANY
 # EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 # WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -52,6 +52,8 @@ import weakref
 import logging
 import traceback
 
+from win32api import GetKeyState
+
 from enso import messages
 from enso import config
 from enso import input
@@ -65,6 +67,11 @@ from enso.quasimode.window import TheQuasimodeWindow
 # key codes to character strings.
 from enso.quasimode.charmaps import STANDARD_ALLOWED_KEYCODES \
     as ALLOWED_KEYCODES
+
+# Import functions to simulate keypresses so that we can sync the
+# Num Lock state when entering and exiting quasimode.
+from enso.platform.win32.selection import _ContextUtils \
+    as ContextUtils
 
 
 # ----------------------------------------------------------------------------
@@ -106,6 +113,11 @@ class Quasimode:
         # Boolean variable that records whether the quasimode key is
         # currently down, i.e., whether the user is "in the quasimode".
         self._inQuasimode = False
+
+        # Record Num Lock states here so that we can sync the state upon
+        # exiting quasimode.
+        self._numLockStart = False
+        self._numLockNow = False
 
         # The QuasimodeWindow object that is responsible for
         # drawing the quasimode; set to None initially.
@@ -174,7 +186,7 @@ class Quasimode:
     def setModal( self, isModal ):
         assert type( isModal ) == bool
         config.IS_QUASIMODE_MODAL = isModal
-        
+
         self.__isModal = isModal
         self.__eventMgr.setModality( isModal )
 
@@ -222,8 +234,11 @@ class Quasimode:
                 # Up arrow; change which suggestion is active.
                 self.__suggestionList.cycleActiveSuggestion( -1 )
                 self.__nextRedrawIsFull = True
+            elif keyCode == input.KEYCODE_NUMLOCK:
+                # The user has pressed the Num Lock key.
+                self._numLockNow = not self._numLockNow
             elif ALLOWED_KEYCODES.has_key( keyCode ):
-                # The user has typed a valid key to add to the userText.
+                # The user has typed a valid key to add to the userText.y
                 self.__addUserChar( keyCode )
             else:
                 # The user has pressed a key that is not valid.
@@ -249,7 +264,7 @@ class Quasimode:
         """
         Deletes one character, if possible, from the user text.
         """
-        
+
         oldUserText = self.__suggestionList.getUserText()
         if len( oldUserText ) == 0:
             # There is no user text; backspace does nothing.
@@ -261,7 +276,7 @@ class Quasimode:
         # then hitting backspace snaps the active suggestion back to
         # the user text.
         self.__suggestionList.resetActiveSuggestion()
-        
+
 
     def __quasimodeBegin( self ):
         """
@@ -275,14 +290,18 @@ class Quasimode:
             self.__quasimodeWindow = TheQuasimodeWindow()
 
         self.__eventMgr.triggerEvent( "startQuasimode" )
-        
+
         self.__eventMgr.registerResponder( self.__onTick, "timer" )
 
         self._inQuasimode = True
         self.__needsRedraw = True
 
+        self._numLockStart = GetKeyState(input.KEYCODE_NUMLOCK)
+        self._numLockNow = self._numLockStart
+
         # Postcondition
         assert self._inQuasimode == True
+
 
     def __onTick( self, timePassed ):
         """
@@ -293,7 +312,7 @@ class Quasimode:
         performance reasons.  If a user mashed down 10 keys in
         the space of a few milliseconds, and the quasimode was re-drawn
         on every single keystroke, then the quasimode could suddenly
-        be lagging behind the user a half a second or more. 
+        be lagging behind the user a half a second or more.
         """
 
         # So pychecker doesn't complain...
@@ -340,6 +359,10 @@ class Quasimode:
 
         self._inQuasimode = False
         self.__suggestionList.clearState()
+        # Sync the Num Lock state
+        if self._numLockStart != self._numLockNow:
+            ContextUtils.tapKey( input.KEYCODE_NUMLOCK )
+
 
     def __executeCommand( self, cmd, cmdName ):
         """
@@ -363,6 +386,7 @@ class Quasimode:
             logging.error( traceback.format_exc() )
             raise
 
+
     def __showBadCommandMsg( self, userText ):
         """
         Displays an error message telling the user that userText does
@@ -381,14 +405,14 @@ class Quasimode:
         text = text % ( badCmd, caption )
 
         messages.displayMessage( text )
-        
+
 
     def __commandSuggestionCaption( self, userText ):
         """
         Creates and returns a caption suggesting one or two commands
         that are similar to userText.
         """
-        
+
         # Retrieve one or two command name suggestions.
         suggestions = self.__cmdManager.retrieveSuggestions( userText )
         cmds = [ s.toText() for s in suggestions ]
