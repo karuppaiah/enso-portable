@@ -10,7 +10,7 @@ v0.1.4
 
 <img src="https://raw.github.com/GChristensen/enso-portable/master/screen.jpg" />
 
-Description: the Enso Launcher application allows to launch programs found in the Windows Start menu (or picked manually using the `learn as open' command) and perform many other operations with text command line 
+Description: the Enso Launcher application allows to launch programs found in the Windows Start menu (or picked manually using the `learn as open' command) and perform many other operations with text command line
 triggered by pressing the CAPSLOCK key. It's possible to create your own commands using the Python (version 2.5) programming language.
 
 [Download](https://github.com/downloads/GChristensen/enso-portable/enso-portable.7z.sfx.exe) a portable binary distribution (no installation is required).
@@ -41,12 +41,12 @@ The source code of the original community Enso application could be found here:
 * Ability to restart using a tray menu item or the `enso restart' command
 
 
-####Additional Commands 
+####Additional Commands
 
 >>**session.py**
 
 >>>Session/Power management commands (self explanatory):
-      
+
 >>>* log off
 * shut down
 * reboot
@@ -63,7 +63,7 @@ The source code of the original community Enso application could be found here:
 >>**dial.py**
 
 >>>Dial-up network related commands:
-  
+
 >>>* dial [connection name] - connect to the Internet using a dialup connection
 * hangup [connection name] - close an Internet connection
 
@@ -81,7 +81,7 @@ The source code of the original community Enso application could be found here:
 >>**lingvo.py**
 
 >>>Control Abbyy Lingvo dictionary software with Enso Launcher. It's possible to specify translation direction attributes, see command help for the details.
-     
+
 >>>* lingvo [word from lang to lang] - translate a word
 >>>* quit lingvo - close Lingvo
 
@@ -89,7 +89,7 @@ The source code of the original community Enso application could be found here:
 
 >>>A set of shortcuts to [un]mount TrueCrypt volumes:
 
->>>* truecrypt mount [letter] - mount a truecrypt volume assigned to the specified letter 
+>>>* truecrypt mount [letter] - mount a truecrypt volume assigned to the specified letter
 * truecrypt umount - unmount all mounted volumes
 
 >>**dd_wrt.py** <font color="red">warning: does not work out of the box, hacking required</font>
@@ -101,6 +101,10 @@ The source code of the original community Enso application could be found here:
 >>>* switch wireless - turn wireless radio on/off
 
 >>>* wan reconnect - reconnect the ppoe daemon (may be useful to get a new IP from a dynamic pool)
+
+####Disabling Commands
+
+If you have no need for a command, you can turn it off by moving it to the `commands_OFF` directory. This way you do not pollute the suggestions list with commands that you will never use.
 
 ####Known Issues
 
