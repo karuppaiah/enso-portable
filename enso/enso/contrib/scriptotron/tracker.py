@@ -3,7 +3,6 @@ import os
 import types
 
 from enso.commands.manager import CommandAlreadyRegisteredError
-from enso.contrib.scriptotron.tracebacks import TracebackCommand
 from enso.contrib.scriptotron.tracebacks import safetyNetted
 from enso.contrib.scriptotron.events import EventResponderList
 from enso.contrib.scriptotron import adapters
@@ -75,9 +74,6 @@ class ScriptTracker:
             "startQuasimode"
             )
 
-        commandManager.registerCommand( TracebackCommand.NAME,
-                                        TracebackCommand() )
-
     @classmethod
     def install( cls, eventManager, commandManager ):
         cls( eventManager, commandManager )
@@ -88,7 +84,7 @@ class ScriptTracker:
         code = compile( text, filename, "exec" )
         exec code in allGlobals
         return allGlobals
-    
+
     def _getCommandFiles( self ):
         try:
             commandFiles = [
@@ -130,7 +126,7 @@ class ScriptTracker:
                 obj.func_code.co_filename
                 for obj in allGlobals.values()
                 if ( (hasattr(obj, "__module__")) and
-                     (obj.__module__ is None) and 
+                     (obj.__module__ is None) and
                      (hasattr(obj, "func_code")) )
                 ]
         else:
