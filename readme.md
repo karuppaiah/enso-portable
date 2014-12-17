@@ -38,7 +38,9 @@ The source code of the original community Enso application could be found here:
 
 ####Additional functionality not found in the original Enso
 
-* Ability to restart using a tray menu item or the `enso restart' command
+* Ability to restart using a tray menu item or the `enso restart` command (GChristensen)
+* Ability to enter all standard symbols in quasimode (thdoan)
+* Ability to enter numbers and symbols using the keypad (thdoan)
 
 
 ####Additional Commands

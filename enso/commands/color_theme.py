@@ -8,7 +8,7 @@ color_themes = {
     }
 
 def cmd_enso_theme(ensoapi, color = None):
-    """ Change Enso color theme to %s """
+    """ Change Enso theme color """
     if not color:
         return
     from enso.quasimode import layout

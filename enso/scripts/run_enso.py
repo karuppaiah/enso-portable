@@ -19,7 +19,7 @@ def tray_on_enso_quit(systray):
     enso.config.SYSTRAY_ICON.change_tooltip("Closing Enso...")
     global options
     if not options.quiet:
-        displayMessage(u"<p>Closing Enso...</p><caption>Enso</caption>")
+        displayMessage(u"<p>Closing <command>Enso</command>...</p>")
     #import win32gui
     #win32gui.PostQuitMessage(0)
     time.sleep(1)
