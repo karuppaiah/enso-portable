@@ -74,3 +74,13 @@ def cmd_unquote_url(ensoapi):
         text = urllib.unquote(text)
         ensoapi.set_selection({"text": text})
 
+
+def cmd_trim(ensoapi):
+    """ Strip leading and trailing spaces from selected text """
+    seldict = ensoapi.get_selection()
+    text = seldict.get("text", "")
+    if not text:
+        ensoapi.display_message("No selection!")
+    else:
+        ensoapi.set_selection({"text":text.strip()})
+
