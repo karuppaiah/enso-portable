@@ -119,6 +119,10 @@ class Quasimode:
         self._numLockStart = False
         self._numLockNow = False
 
+        # Is the Shift key currently pressed? If it is, then allow
+        # entering symbols such as "(" by pressing Shift + 9.
+        self._shiftKeyDown = False
+
         # The QuasimodeWindow object that is responsible for
         # drawing the quasimode; set to None initially.
         # A QuasimodeWindow object is created at the beginning of
@@ -146,6 +150,12 @@ class Quasimode:
         # Register a key event responder, so that the quasimode can
         # actually respond to quasimode events.
         self.__eventMgr.registerResponder( self.onKeyEvent, "key" )
+
+        # Register a meta key event responder for Shift so that we can
+        # enter characters such as "(" and "^", which allows us to use
+        # Enso as an inline calculator instead of having to select an
+        # expression first.
+        self.__eventMgr.registerResponder( self.onSomeKeyEvent, "somekey" )
 
         # Creates new event types that code can subscribe to, to find out
         # when the quasimode (or mode) is started and completed.
@@ -245,12 +255,21 @@ class Quasimode:
                 pass
 
 
+    def onSomeKeyEvent( self ):
+        """
+        Handles a key event for meta keys such as Shift.
+        """
+
+        if self._inQuasimode:
+            self._shiftKeyDown = (GetKeyState(input.KEYCODE_SHIFT) < 0)
+
+
     def __addUserChar( self, keyCode ):
         """
         Adds the character corresponding to keyCode to the user text.
         """
 
-        newCharacter = ALLOWED_KEYCODES[keyCode]
+        newCharacter = ALLOWED_KEYCODES[keyCode + (0 if not self._shiftKeyDown else 1000)]
         oldUserText = self.__suggestionList.getUserText()
         self.__suggestionList.setUserText( oldUserText + newCharacter )
 
@@ -359,6 +378,7 @@ class Quasimode:
 
         self._inQuasimode = False
         self.__suggestionList.clearState()
+
         # Sync the Num Lock state
         if self._numLockStart != self._numLockNow:
             ContextUtils.tapKey( input.KEYCODE_NUMLOCK )
