@@ -72,7 +72,7 @@ class GoogleCommand( CommandObject ):
 
         if parameter != None:
             self.setDescription( u"Performs a Google web search for "
-                                 u"\u201c%s\u201d." % parameter )
+                                 u"\u201c%s\u201d" % parameter )
 
     @safetyNetted
     def run( self ):

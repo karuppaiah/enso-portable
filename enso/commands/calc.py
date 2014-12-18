@@ -132,32 +132,32 @@ def _handle_currency_symbols(expression):
 # ¥100
 def cmd_calculate(ensoapi, expression = None):
     u""" Calculate the given expression
-    Calculate mathematical expression.<br/><br/>
-    Supported operators:<br/>
+    Calculate mathematical expression.<br><br>
+    Supported operators:<br>
     <code>
     -, +, /, *, ^, **, (, ), %, mod
-    </code><br/>
-    functions:<br/>
+    </code><br>
+    functions:<br>
     <code>
     mod, currency, acos, asin, atan, atan2, ceil, cos, cosh,
     degrees, exp, fabs, floor, fmod, frexp, hypot, ldexp,
     log, log10, modf, pow, radians, sin, sinh, sqrt, tan, tanh
-    </code><br/>
-    constants:<br/>
+    </code><br>
+    constants:<br>
     <code>
     pi, e
-    </code><br/>
-    conversions:<br/>
+    </code><br>
+    conversions:<br>
     <code>
     abs, chr, hex
-    </code><br/>
-    currency conversion:<br/>
-    <code>150eur in usd</code><br/>
-    <code>1 gbp to eur</code><br/>
-    <code>usd in eur</code><br/>
+    </code><br>
+    currency conversion:<br>
+    <code>150eur in usd</code><br>
+    <code>1 gbp to eur</code><br>
+    <code>usd in eur</code><br>
     <code>to eur</code>
     (when some text representing amount + currency is selected,
-    like $1000, gbp10, €4.5, 10 GBP)<br/>
+    like $1000, gbp10, €4.5, 10 GBP)<br>
     """
     #_cache_currencies()
     #print "TO CURRENCIES: " + "|".join(_to_currencies.keys())

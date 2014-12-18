@@ -74,70 +74,77 @@ class DefaultHtmlHelp( object ):
 
     def _render( self ):
         with open( self.filename, "w" ) as fileobj:
-            fileobj.write( "<!DOCTYPE html><html><head><title>Enso Help</title>" )
-            fileobj.write("""
-                <style>
-                body {
-                font-family:sans-serif;
-                margin:0;
-                padding:0;
-                }
-                h1 {
-                background-color:#b2cb78;
-                border-radius:0 0 .2em;
-                color:white;
-                display:inline;
-                font-weight:normal;
-                padding:.2em;
-                }
-                ul {
-                list-style-type:none;
-                margin:1em;
-                padding:1em;
-                }
-                li {
-                display:inline;
-                line-height:1.5em;
-                margin:.2em 1em .2em 0;
-                }
-                h2 {
-                background-color:#272727;
-                border-radius:0 .2em .2em 0;
-                clear:both;
-                color:white;
-                display:inline;
-                font-weight:normal;
-                margin:.4em 0 0 0;
-                padding:.2em .8em;
-                }
-                h3 {
-                background-color:#b2cb78;
-                color:white;
-                display:inline;
-                font-weight:normal;
-                margin:0;
-                padding:.2em .8em;
-                }
-                p {
-                padding:.2em 1em 1em 1em;
-                }
-                </style>
-            """)
-            fileobj.write( "</head>" )
-            fileobj.write( "<body>" )
-            fileobj.write( "<h1>Enso Help</h1>" )
+            fileobj.write(
+"""<!DOCTYPE html>
+<html>
+<head>
+<title>Enso Help</title>
+<style>
+body {
+font-family:Calibri,sans-serif;
+margin:0;
+padding:0;
+}
+h1 {
+background-color:#b2cb78;
+border-radius:0 0 .2em;
+color:white;
+display:inline;
+font-weight:normal;
+padding:.2em;
+}
+h2 {
+background-color:#272727;
+border-radius:0 .2em .2em 0;
+clear:both;
+color:white;
+display:inline;
+font-weight:normal;
+margin:.4em 0 0 0;
+padding:.2em .8em;
+}
+h3 {
+background-color:#b2cb78;
+color:white;
+display:inline;
+font-weight:normal;
+margin:0;
+padding:.2em .8em;
+}
+p {
+padding:.2em 1em 1em 1em;
+}
+ul {
+list-style-type:none;
+margin:1em;
+padding:1em;
+}
+li {
+display:inline;
+line-height:1.5em;
+margin:.2em 1em .2em 0;
+}
+code {
+font-family:Consolas,monospace;
+}
+</style>
+</head>
+<body>
+<h1>Enso Help</h1>
+""")
 
             fileobj.write( "<ul>" )
-            for name, command in self._cmdMan.getCommands().items():
-                fileobj.write( "<li>" )
+            sortedItems = sorted( self._cmdMan.getCommands().items() )
+
+            for name, command in sortedItems:
+                fileobj.write( "\n  <li>" )
                 fileobj.write( "<a href=\"#%s\">%s</a>" % (name, name) )
                 fileobj.write( "</li>" )
-            fileobj.write( "</ul>" )
+            fileobj.write( "\n</ul>" )
 
+            for name, command in sortedItems:
 
-            for name, command in self._cmdMan.getCommands().items():
-
-                fileobj.write( "<h2 id=\"%s\">%s</h2>" % (name, name) )
+                fileobj.write( "\n\n<h2 id=\"%s\">%s</h2>" % (name, name) )
 
                 desc = command.getDescription()
                 fileobj.write( "<h3>%s</h3>" % desc )
@@ -150,9 +157,13 @@ class DefaultHtmlHelp( object ):
                 else:
                     helpText = ""
 
-                fileobj.write( "<p>%s</p>" %  helpText )
+                fileobj.write( "\n<p>%s</p>" %  helpText )
 
-            fileobj.write( "</body></html>" )
+            fileobj.write(
+"""
+</body>
+</html>
+""")
             fileobj.close()
 
     def view( self ):

@@ -36,13 +36,13 @@ def translate_word(ensoapi, suffix):
             word = sel.get("text")
 
     isLatin = not(latinMatcher.match(word) is None)
-    
+
     m = directionParser.search(suffix)
-    
+
     from_ = m.group(1)
     if not from_ in lang2code.keys():
         from_ = LINGVO_SECONDARY_LANG if isLatin else LINGVO_PRIMARY_LANG
-    
+
     to = m.group(2)
     if not to in lang2code.keys():
         to = LINGVO_PRIMARY_LANG if isLatin else LINGVO_SECONDARY_LANG
@@ -57,21 +57,21 @@ def cmd_lingvo(ensoapi, word_from_lang_to_lang = ""):
     """Translate a word with the Abbyy Lingvo dictionary software
     Use this command to translate an argument word or
     a current selection with the Abbyy Lingvo dictionary
-    software.<br/>
+    software.<br>
     You can (optionally) specify source and destination languages
     after the <i>from</i> or <i>to</i> keywords respectively, for example:
-    <br/><br/>lingvo espoir from fr to ru<br/><br/>
-    Supported language abbreviations are:<br/>
-    de - German<br/>
-    en - English<br/>
-    es - Spanish<br/>
-    fr - French<br/>
-    it - Italian<br/>
-    la - Latin<br/>
-    pt - Portuguese<br/>
-    ru - Russian<br/>
-    ua - Ukrainan<br/>"""
-    
+    <br><br>lingvo espoir from fr to ru<br><br>
+    Supported language abbreviations are:<br>
+    de - German<br>
+    en - English<br>
+    es - Spanish<br>
+    fr - French<br>
+    it - Italian<br>
+    la - Latin<br>
+    pt - Portuguese<br>
+    ru - Russian<br>
+    ua - Ukrainan<br>"""
+
     translate_word(ensoapi, word_from_lang_to_lang)
 
 def cmd_quit_lingvo(ensoapi):
