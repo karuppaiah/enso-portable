@@ -43,7 +43,6 @@ from __future__ import with_statement
 
 import os
 import webbrowser
-import tempfile
 import urllib
 import atexit
 import logging
@@ -69,12 +68,7 @@ class DefaultHtmlHelp( object ):
     """
 
     def __init__( self, commandManager ):
-        handle, self.filename = tempfile.mkstemp(
-            suffix = ".html",
-            prefix = "ensoHelp",
-            text = True
-            )
-        os.close( handle )
+        self.filename = "help.html"
         atexit.register( self._finalize )
         self._cmdMan = commandManager
 
@@ -159,10 +153,11 @@ class DefaultHtmlHelp( object ):
                 fileobj.write( "<p>%s</p>" %  helpText )
 
             fileobj.write( "</body></html>" )
+            fileobj.close()
 
     def view( self ):
         self._render()
-        fileUrl = "file:%s" % urllib.pathname2url( self.filename )
+        fileUrl = "file:%s" % urllib.pathname2url( os.path.abspath(self.filename) )
         # Catch exception, because webbrowser.open sometimes raises exception
         # without any reason
         try:
