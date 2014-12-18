@@ -3,6 +3,7 @@ import os
 import types
 
 from enso.commands.manager import CommandAlreadyRegisteredError
+#from enso.contrib.scriptotron.tracebacks import TracebackCommand
 from enso.contrib.scriptotron.tracebacks import safetyNetted
 from enso.contrib.scriptotron.events import EventResponderList
 from enso.contrib.scriptotron import adapters
@@ -73,6 +74,9 @@ class ScriptTracker:
             self._updateScripts,
             "startQuasimode"
             )
+
+        #commandManager.registerCommand( TracebackCommand.NAME,
+        #                                TracebackCommand() )
 
     @classmethod
     def install( cls, eventManager, commandManager ):

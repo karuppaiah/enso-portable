@@ -5,8 +5,8 @@ import random
 
 def cmd_guid(ensoapi, format = "lowercase"):
     """
-    Replaces selected text with a guid.
-    format must be one of "lowecase", "uppercase" or "numeric".
+    Replaces selected text with a GUID (Globally Unique Identifier)
+    Format must be one of "lowecase", "uppercase", or "numeric".
     """
     if format == "numeric":
         ensoapi.set_selection({"text": str(uuid.uuid4().hex)})
@@ -14,7 +14,7 @@ def cmd_guid(ensoapi, format = "lowercase"):
         ensoapi.set_selection({"text": str(uuid.uuid4()).upper()})
     else:
         ensoapi.set_selection({"text": str(uuid.uuid4())})
-        
+
 cmd_guid.valid_args = ["lowercase", "uppercase", "numeric"]
 
 

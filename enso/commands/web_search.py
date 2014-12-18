@@ -126,13 +126,13 @@ def cmd_wikipedia(ensoapi, query = None):
 
 
 def cmd_imdb(ensoapi, query = None):
-    """ Search Internet Movie Database """
+    """ Search Internet Movie Database (IMDb) """
     ws = WebSearchCmd("http://www.imdb.com/find?s=all&q=%(query)s&x=0&y=0")
     ws(ensoapi, query)
 
 
 def cmd_youtube(ensoapi, query = None):
-    """ Search videos on Youtube """
+    """ Search videos on YouTube """
     if query:
         query = query.replace(":", ", ").strip().strip("\0")
     ws = WebSearchCmd("http://www.youtube.com/results?search_query=%(query)s&search_type=&aq=0&oq=")
@@ -194,7 +194,7 @@ def cmd_website(ensoapi, text = None):
     text = text.replace(":", ", ").strip().strip("\0")
 
     query = urllib.urlencode({
-        'q' : text 
+        'q' : text
     })
 
     url = 'http://ajax.googleapis.com/ajax/services/search/web?v=1.0&%s' % (query)
@@ -205,7 +205,7 @@ def cmd_website(ensoapi, text = None):
     if json and json['responseStatus'] == 200 and len(json.get('responseData').get('results')) > 0:
         url = json.get('responseData').get('results')[0].get('url')
         #ensoapi.display_message(url, "Translated text")
-    
+
         try:
             webbrowser.open( url )
         except Exception, e:
@@ -256,7 +256,7 @@ def cmd_download(ensoapi, text):
 
 
 def cmd_stackoverflow(ensoapi, query = None):
-    """ Search stackoverflow.com """
+    """ Search Stack Overflow """
     if query:
         query = query.replace(":", ", ").strip().strip("\0")
     ws = WebSearchCmd("http://stackoverflow.com/search?q=%(query)s")
@@ -272,7 +272,7 @@ def cmd_torrent(ensoapi, query = None):
 
 
 def cmd_wolfram(ensoapi, query = None):
-    """ Search wolfram-alpha """
+    """ Search Wolfram|Alpha """
     if query:
         query = query.replace(":", ",").strip().strip("\0")
     ws = WebSearchCmd("http://www.wolframalpha.com/input/?i=%(query)s")
@@ -288,7 +288,7 @@ def cmd_subtitles(ensoapi, query = None):
 
 
 def cmd_filestube(ensoapi, query = None):
-    """ Search for file on filestube.com """
+    """ Search for file on FilesTube """
     if query:
         query = query.replace(":", ",").strip().strip("\0")
     ws = WebSearchCmd("http://www.filestube.com/search.html?q=%(query)s&select=All")
@@ -296,7 +296,7 @@ def cmd_filestube(ensoapi, query = None):
 
 
 def cmd_define_ninjawords(ensoapi, query = None):
-    """ Search word definition using ninjawords.com """
+    """ Search word definition using Ninjawords """
     if query:
         query = query.replace(":", ",").strip().strip("\0")
     ws = WebSearchCmd("http://ninjawords.com/%(query)s")
@@ -338,7 +338,7 @@ def cmd_thesaurus(ensoapi, word = None):
 
     ws = WebSearchCmd("http://thesaurus.reference.com/browse/%(query)s")
     ws(ensoapi, word)
-    
+
 
 
 
@@ -371,7 +371,7 @@ def cmd_is_down(ensoapi, url = None):
         return
 
     parsed_url = _extract_url_from_text(url)
-    
+
     if not parsed_url:
         ensoapi.display_message("Unrecognized URL format.")
         return
@@ -400,22 +400,22 @@ def cmd_is_down(ensoapi, url = None):
             displayMessage(u"<p>Site <command>%s</command> is unknown!</p>" % base_url)
         elif html.find("It's not just you") > -1:
             displayMessage(u"<p>Site <command>%s</command> is down!</p>" % base_url)
-        else:    
+        else:
             print html
 
 
 def ping_host(ensoapi, host):
     assert host is not None
-    
+
     pingres = os.popen(
         os.path.expandvars(
-            "${WINDIR}\\system32\\ping.exe -n 1 -w 1000 %s") 
+            "${WINDIR}\\system32\\ping.exe -n 1 -w 1000 %s")
             % host, "r")
     sys.stdout.flush()
     average_ping = None
     while 1:
         line = pingres.readline()
-        if not line: 
+        if not line:
             break
         loss = re.findall("([0-9]+)% loss", line)
         if loss:
@@ -427,14 +427,14 @@ def ping_host(ensoapi, host):
 
     displayable_host = xml.sax.saxutils.escape(host)
     if average_ping is not None:
-        displayMessage(u"<p>Host <command>%s</command> is up! (%dms)</p>" 
+        displayMessage(u"<p>Host <command>%s</command> is up! (%dms)</p>"
                        % (displayable_host, average_ping))
     else:
-        displayMessage(u"<p>Host <command>%s</command> is down</p>" 
+        displayMessage(u"<p>Host <command>%s</command> is down</p>"
                        % displayable_host)
 
 def cmd_ping(ensoapi, host = None):
-    """ Ping the host (hostname or IP-address, use . for recently pinged) """
+    """ Ping the host (hostname or IP address; use . for recently pinged) """
     if host is None:
         seldict = ensoapi.get_selection()
         if seldict.get("text"):
@@ -456,14 +456,14 @@ def cmd_ping(ensoapi, host = None):
 
     displayable_host = xml.sax.saxutils.escape(host)
     displayMessage(u"<p>Pinging host <command>%s</command></p>" % displayable_host)
-    
+
     pt = threading.Thread(target = ping_host, args = (ensoapi, host))
     pt.start()
 
 
 
 def cmd_url(ensoapi, parameter = None):
-    """ Open selected text as URL in browser. """
+    """ Open selected text as URL in browser """
     if parameter != None:
         text = parameter.decode()
     else:
@@ -476,7 +476,7 @@ def cmd_url(ensoapi, parameter = None):
         return
 
     parsed_url = _extract_url_from_text(text)
-    
+
     if not parsed_url:
         ensoapi.display_message("Unrecognized URL format.")
         return
@@ -504,7 +504,7 @@ def cmd_what_is_my_ip(ensoapi):
             f = urllib2.urlopen(url)
             return f.read()
         return get_url
-    
+
     import re
     thread = ThreadedFunc(make_get_url_func("http://checkip.dyndns.com/"))
     while thread.isAlive():

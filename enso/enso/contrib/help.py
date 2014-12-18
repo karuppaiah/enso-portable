@@ -1,6 +1,6 @@
 # Copyright (c) 2008, Humanized, Inc.
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
 #
@@ -14,7 +14,7 @@
 #    3. Neither the name of Enso nor the names of its contributors may
 #       be used to endorse or promote products derived from this
 #       software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY Humanized, Inc. ``AS IS'' AND ANY
 # EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 # WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -80,31 +80,53 @@ class DefaultHtmlHelp( object ):
 
     def _render( self ):
         with open( self.filename, "w" ) as fileobj:
-            fileobj.write( "<html><head><title>Enso Help</title>" )
+            fileobj.write( "<!DOCTYPE html><html><head><title>Enso Help</title>" )
             fileobj.write("""
                 <style>
-                    body { 
-                        font-family: sans-serif; margin: 0; padding: 0; 
-                    }
-                    h1 { 
-                        font-weight: normal; padding: 0.2em; background-color: #B2CB78; 
-                        color: white; border-radius: 0 0 0.2em; display: inline; 
-                    }
-                    ul { list-style-type: none; padding: 1em; margin: 1em; }
-                    li { margin: 0.2em 1em 0.2em 0; display: inline; line-height: 1.5em;}
-                    h2 { 
-                        clear: both; font-weight: normal; padding: 0.2em; background-color: #272727; 
-                        color: white; 
-                        margin: 0.4em 0 0 0;
-                        display: inline;
-                        border-radius: 0 0.2em 0.2em 0; 
-                    }
-                    h3 {
-                        font-weight: normal; padding: 0.2em; background-color: #B2CB78; 
-                        color: white; margin: 0; 
-                        display: inline;
-                    }         
-                    p { margin-bottom: 3em; margin-top: 0.5em; }
+                body {
+                font-family:sans-serif;
+                margin:0;
+                padding:0;
+                }
+                h1 {
+                background-color:#b2cb78;
+                border-radius:0 0 .2em;
+                color:white;
+                display:inline;
+                font-weight:normal;
+                padding:.2em;
+                }
+                ul {
+                list-style-type:none;
+                margin:1em;
+                padding:1em;
+                }
+                li {
+                display:inline;
+                line-height:1.5em;
+                margin:.2em 1em .2em 0;
+                }
+                h2 {
+                background-color:#272727;
+                border-radius:0 .2em .2em 0;
+                clear:both;
+                color:white;
+                display:inline;
+                font-weight:normal;
+                margin:.4em 0 0 0;
+                padding:.2em .8em;
+                }
+                h3 {
+                background-color:#b2cb78;
+                color:white;
+                display:inline;
+                font-weight:normal;
+                margin:0;
+                padding:.2em .8em;
+                }
+                p {
+                padding:.2em 1em 1em 1em;
+                }
                 </style>
             """)
             fileobj.write( "</head>" )
@@ -117,7 +139,7 @@ class DefaultHtmlHelp( object ):
                 fileobj.write( "<a href=\"#%s\">%s</a>" % (name, name) )
                 fileobj.write( "</li>" )
             fileobj.write( "</ul>" )
-                
+
 
             for name, command in self._cmdMan.getCommands().items():
 
@@ -127,9 +149,12 @@ class DefaultHtmlHelp( object ):
                 fileobj.write( "<h3>%s</h3>" % desc )
 
                 helpText = command.getHelp()
-                if not helpText:
-                    helpText = "This command has no help content."
-                helpText = helpText.encode( "utf-8", "xmlcharrefreplace" )
+                #if not helpText:
+                #    helpText = "This command has no help content."
+                if helpText:
+                    helpText = helpText.encode( "utf-8", "xmlcharrefreplace" ).strip()
+                else:
+                    helpText = ""
 
                 fileobj.write( "<p>%s</p>" %  helpText )
 
@@ -159,7 +184,7 @@ class HelpCommand( CommandObject ):
     """
 
     NAME = "help"
-    DESCRIPTION = "Provides you with help on how to use Enso."
+    DESCRIPTION = "Provides you with help on how to use Enso"
 
     def __init__( self, htmlHelp ):
         super( HelpCommand, self ).__init__()

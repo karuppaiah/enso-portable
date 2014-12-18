@@ -1,6 +1,6 @@
 # Copyright (c) 2008, Humanized, Inc.
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
 #
@@ -14,7 +14,7 @@
 #    3. Neither the name of Enso nor the names of its contributors may
 #       be used to endorse or promote products derived from this
 #       software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY Humanized, Inc. ``AS IS'' AND ANY
 # EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 # WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -60,12 +60,12 @@ class GoogleCommand( CommandObject ):
     """
     Implementation of the 'google' command.
     """
-    
+
     def __init__( self, parameter = None ):
         """
         Initializes the google command.
         """
-    
+
         CommandObject.__init__( self )
 
         self.parameter = parameter
@@ -73,7 +73,7 @@ class GoogleCommand( CommandObject ):
         if parameter != None:
             self.setDescription( u"Performs a Google web search for "
                                  u"\u201c%s\u201d." % parameter )
-        
+
     @safetyNetted
     def run( self ):
         """
@@ -143,7 +143,7 @@ class GoogleCommandFactory( ArbitraryPostfixFactory ):
     HELP_TEXT = "search terms"
     PREFIX = "google "
     NAME = "google {search terms}"
-    
+
     def _generateCommandObj( self, postfix ):
         if postfix:
             # TODO: postfix never seems to be used. Perhaps this command
@@ -152,7 +152,7 @@ class GoogleCommandFactory( ArbitraryPostfixFactory ):
         else:
             cmd = GoogleCommand()
             cmd.setDescription(
-                "Performs a Google web search on the selected or typed text."
+                "Performs a Google web search on the selected or typed text"
             )
         return cmd
 
@@ -164,7 +164,7 @@ class GoogleCommandFactory( ArbitraryPostfixFactory ):
 def load():
     cmd = GoogleCommandFactory()
     cmd.setDescription(
-        "Performs a Google web search on the selected or typed text."
+        "Performs a Google web search on the selected or typed text"
     )
     CommandManager.get().registerCommand(
         GoogleCommandFactory.NAME,
