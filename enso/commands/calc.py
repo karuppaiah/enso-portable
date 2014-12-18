@@ -56,18 +56,18 @@ def _cache_currencies():
 
 _cache_currencies()
 complete_currency_re = re.compile(
-    r"(.*)(" + 
-    "|".join(_from_currencies.keys()) + 
+    r"(.*)(" +
+    "|".join(_from_currencies.keys()) +
     ") (in|to) (" +
-    "|".join(_to_currencies.keys()) + 
-    ")(.*)", 
+    "|".join(_to_currencies.keys()) +
+    ")(.*)",
     re.IGNORECASE)
 
 
 partial_currency_re = re.compile(
     r"(in|to) (" +
-    "|".join(_to_currencies.keys()) + 
-    ")(.*)", 
+    "|".join(_to_currencies.keys()) +
+    ")(.*)",
     re.IGNORECASE)
 
 #print r"(.*)\S?((" + "|".join(_from_currencies.keys()) + "){3}) in (.*)"
@@ -124,7 +124,7 @@ def _handle_currency_symbols(expression):
             currency = symbol
             amount = m.group(1)
             break
-        
+
     return fixed_expression, currency, amount
 
 # £264.00
@@ -155,28 +155,30 @@ def cmd_calculate(ensoapi, expression = None):
     <code>150eur in usd</code><br/>
     <code>1 gbp to eur</code><br/>
     <code>usd in eur</code><br/>
-    <code>to eur</code> 
-    (when some text representing amount + currency is selected, 
+    <code>to eur</code>
+    (when some text representing amount + currency is selected,
     like $1000, gbp10, €4.5, 10 GBP)<br/>
     """
     #_cache_currencies()
     #print "TO CURRENCIES: " + "|".join(_to_currencies.keys())
-    seldict = ensoapi.get_selection()
-    if seldict.get(u"text"):
-        selected_text = seldict[u'text'].strip().strip("\0")
-    else:
-        selected_text = None
 
     got_selection = False
+
     if expression is None:
+        seldict = ensoapi.get_selection()
+        if seldict.get(u"text"):
+            selected_text = seldict[u"text"].strip().strip("\0")
+        else:
+            selected_text = None
+
         if selected_text:
             expression = selected_text
             got_selection = expression is not None
 
-    if expression is None:
-        ensoapi.display_message("No expression given.")
-        return        
-    
+        if not got_selection:
+            ensoapi.display_message("No expression given.")
+            return
+
     math_funcs = [f for f in dir(math) if f[:2] != '__']
 
     whitelist = '|'.join(
@@ -209,12 +211,12 @@ def cmd_calculate(ensoapi, expression = None):
                 amount = float(amount_str)
             except:
                 amount = 1
-        
+
         #print  r"(.*)(" + "|".join(_from_currencies.keys()) + ") (in|to) (" + "|".join(_to_currencies.keys()) + ")(.*)"
         expression = "currency(%s, '%s', '%s') %s" % (
-            amount, 
-            currconv_match.group(2).upper(), 
-            currconv_match.group(4).upper(), 
+            amount,
+            currconv_match.group(2).upper(),
+            currconv_match.group(4).upper(),
             currconv_match.group(5))
         #print expression
     else:
@@ -226,8 +228,8 @@ def cmd_calculate(ensoapi, expression = None):
             #print amount_str, from_currency, amount
             #print currconv_match.groups()
             expression = "currency(%s, '%s', '%s') %s" % (
-                amount, 
-                from_currency, 
+                amount,
+                from_currency,
                 currconv_match.group(2).upper(),
                 currconv_match.group(3)
             )
@@ -243,21 +245,20 @@ def cmd_calculate(ensoapi, expression = None):
             append_result = True
         else:
             append_result = False
-        
+
         try:
             result = eval(expression, {"__builtins__": None}, math_funcs_dict)
             global last_calculation
             last_calculation = result
 
-            pasted = False
             if got_selection:
                 if append_result:
-                    pasted = selection.set({ "text" : expression.strip() + " = " + unicode(result) })
+                    selection.set({ "text" : expression.strip() + " = " + unicode(result) })
                 else:
-                    pasted = selection.set({ "text" : unicode(result) })
-            
-            if not pasted:
+                    selection.set({ "text" : unicode(result) })
+            else:
                 displayMessage(u"<p>%s</p><caption>%s</caption>" % (result, expression))
+
         except Exception, e:
             logging.info(e)
             ensoapi.display_message("Invalid syntax", "Error")
@@ -273,7 +274,7 @@ if paste_command:
 def cmd_calculation_paste(ensoapi):
     """ Paste the results of the last calculation """
     global last_calculation
-    
+
     #paste_command = CommandManager.get().getCommand("paste")
     #if paste_command:
     #    print dir(paste_command)
