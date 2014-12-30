@@ -4,110 +4,93 @@ A fork of [GChristensen's portable distribution](https://github.com/GChristensen
 
 ---
 
-<img src="https://raw.github.com/GChristensen/enso-portable/master/screen.jpg">
+<img src="https://raw.githubusercontent.com/thdoan/enso-portable/master/screen.jpg">
 
-Description: the Enso Launcher application allows to launch programs found in the Windows Start menu (or picked manually using the `learn as open' command) and perform many other operations with text command line
-triggered by pressing the CAPSLOCK key. It's possible to create your own commands using the Python (version 2.5) programming language.
+#### Description
 
-[Download](https://github.com/downloads/GChristensen/enso-portable/enso-portable.7z.sfx.exe) a portable binary distribution (no installation is required).
+Enso is a GUI-less application launcher that is both influenced by and dedicated in memory of [Jef Raskin](http://en.wikipedia.org/wiki/Jef_Raskin), the father of the Apple Macintosh project. It incorporates many ideas about human-computer interfaces from Jef's book, [The Humane Interface](http://en.wikipedia.org/wiki/The_Humane_Interface). In fact, Enso's original developer, Humanized, was led by Jef's son [Aza Raskin](http://www.azarask.in/blog/post/enso_beta_hints_1/).
 
-####Notes
+Enso allows you to launch programs found in the Windows Start Menu (or picked manually using the `learn as open` command), and perform many other operations from the command line triggered by pressing the Caps Lock key. It's possible to extend Enso and easily create your own commands using the Python (version 2.5) programming language.
 
-* There is no need to hold down the CAPSLOCK key as in the original version (it's only necessary to hit it once, the settings could be adjusted at the enso/config.py file).
+#### Installation
 
-* Use the `help' command to get the list of available commands.
+1. Click 'Clone in Desktop' button or type `git clone https://github.com/thdoan/enso-portable.git` from the command line. If you don't have Git installed, then click the 'Download ZIP' button, extract the 'enso-portable-master' folder to anywhere on your hard drive (it's portable after all), and rename it to 'enso-portable'.
+2. Download [python.7z](http://thdoan.github.io/enso-portable/downloads/python.7z) and extract the contents to the 'enso-portable\enso\python' folder (you'll need to install [7-Zip](http://www.7-zip.org/7z.html) first).
+3. Double-click on 'enso-portable\enso\run-enso.exe' to launch Enso.
 
-* The GIT repository contains only the Enso source code without a Python interpreter, it's more convenient to use the binary package above (which includes a trimmed down Python interpreter) to develop your own commands, so you need only the Notepad to do this.
+#### Notes
 
-* To add a new command you need to put a Python file with its source code into the `commands' folder under the Enso root directory (see the [docs](https://github.com/GChristensen/enso-portable/blob/master/enso/docs/enso-docs.txt) on command authoring).
+- There is no need to hold down the Caps Lock key as in the original version (you only need to hit it once; this setting can be adjusted in the 'enso-portable\enso\enso\config.py' file).
+- Use the `help` command to get the list of available commands.
+- To add a new command, you need to create a Python file (*.py) with its source code in the 'enso-portable\enso\commands' folder (you can use [text_tools.py](https://github.com/thdoan/enso-portable/blob/master/enso/commands/text_tools.py) as a template; see the [docs](https://github.com/thdoan/enso-portable/blob/master/enso/docs/enso-docs.txt) for more info).
+- If you have no need for a command, you can turn it off by moving it to the 'enso-portable\enso\commands_OFF' folder. This way you do not pollute the suggestions list with commands that you will never use.
 
-####Background
+#### Background
 
-I haven't found any Enso command package suitable for my needs, so I decided to make my own one. If you like Enso, you can use the source code freely as you wish, see more at the [Enso Launcher page](http://humanized.com/enso/launcher) (the original application is orphaned now).
-The source code of the original community Enso application could be found here:
-[https://launchpad.net/enso/community-enso](https://launchpad.net/enso/community-enso) (also probably orphaned).
+GChristensen: I haven't found any Enso command package suitable for my needs, so I decided to make my own one. If you like Enso, you can use the source code freely as you wish.
 
-####Dependencies
+#### Additional Functionality (not found in the original Enso)
 
-* Abbyy Lingvo dictionary software (optional)
+- Ability to restart using a tray menu item or the `enso restart` command (GChristensen)
+- Ability to enter all standard symbols in quasimode (thdoan)
+- Ability to enter numbers and symbols using the keypad (thdoan)
 
+#### Additional Commands
 
-####Additional functionality not found in the original Enso
+- **session.py** - Session/Power management commands (self-explanatory):
 
-* Ability to restart using a tray menu item or the `enso restart` command (GChristensen)
-* Ability to enter all standard symbols in quasimode (thdoan)
-* Ability to enter numbers and symbols using the keypad (thdoan)
+	* `log off`
+	* `shut down`
+	* `reboot`
+	* `suspend`
+	* `hibernate`
 
+- **system.py** - System commands:
 
-####Additional Commands
+	* `kill [process name or ID]` - kill a process using its executable name (without extension) or ID
 
->>**session.py**
+- **dial.py** - Dial-up network related commands:
 
->>>Session/Power management commands (self explanatory):
+	* `dial [connection name]` - connect to the Internet using a dial-up connection
+	* `hangup [connection name]` - close an Internet connection
 
->>>* log off
-* shut down
-* reboot
-* suspend
-* hibernate
+- **idgen.py** - Commands to generate ID strings:
 
->>**system.py**
+	* `guid [format]` - generate a UUID in several formats (upper/lower case, numeric)
+	* `random [from num to num]` - generate a random number in the Int32 positive range [0-2147483646]
 
->>>System commands:
+- **lingvo.py** - Control ABBYY Lingvo dictionary software. It's possible to specify translation direction (see command help for details).
 
->>>* kill [process name or id] - kill a process using its executable name
-                                   (without extension) or id
+	* `lingvo [word from lang to lang]` - translate a word
+	* `quit lingvo` - close Lingvo
 
->>**dial.py**
+- **mount.py** - A set of shortcuts to [un]mount TrueCrypt volumes. WARNING: Does not work out of the box (hacking required).
 
->>>Dial-up network related commands:
+	* `truecrypt mount [letter]` - mount a TrueCrypt volume assigned to the specified letter
+	* `truecrypt umount` - unmount all mounted volumes
 
->>>* dial [connection name] - connect to the Internet using a dialup connection
-* hangup [connection name] - close an Internet connection
+- **dd_wrt.py** - A set of dd-wrt shortcut commands (requires terminal access to a [dd-wrt](http://www.dd-wrt.com) router). WARNING: Does not work out of the box (hacking required).
 
->>**idgen.py**
+	* `wake slave` - send a magic packet to a workstation with MAC address hard-coded in the command file
+	* `switch wireless` - turn wireless radio on/off
+	* `wan reconnect` - reconnect the PPPoE daemon (may be useful to get a new IP from a dynamic pool)
 
->>>Generate a UUID in several formats (upper/lower case, numeric):
+#### Dependencies
 
->>>* guid [format]
+- Python 2.5 (download the 7z archive from the link in the Installation section)
+- ABBYY Lingvo dictionary software (optional)
 
->>>Generate a random number in the Int32 positive range [0, 2147483646].
-    It's possible to narrow the range using command arguments:
+#### Known Issues
 
->>>* random [from num to num]
+- The trigger key will not show the command line if Windows Taskbar is under the focus.
 
->>**lingvo.py**
+#### Contributors
 
->>>Control Abbyy Lingvo dictionary software with Enso Launcher. It's possible to specify translation direction attributes, see command help for the details.
+- [Brian Peiris](https://github.com/brianpeiris)
 
->>>* lingvo [word from lang to lang] - translate a word
->>>* quit lingvo - close Lingvo
+#### Resources
 
->>**mount.py** <font color="red">warning: does not work out of the box, hacking required</font>
-
->>>A set of shortcuts to [un]mount TrueCrypt volumes:
-
->>>* truecrypt mount [letter] - mount a truecrypt volume assigned to the specified letter
-* truecrypt umount - unmount all mounted volumes
-
->>**dd_wrt.py** <font color="red">warning: does not work out of the box, hacking required</font>
-
->>>A set of dd-wrt shortcut commands (requires terminal access to a [dd-wrt](http://www.dd-wrt.com) router):
-
->>>* wake slave - send a magic packet to a workstation with MAC address hardcoded in the command file
-
->>>* switch wireless - turn wireless radio on/off
-
->>>* wan reconnect - reconnect the ppoe daemon (may be useful to get a new IP from a dynamic pool)
-
-####Disabling Commands
-
-If you have no need for a command, you can turn it off by moving it to the `commands_OFF` directory. This way you do not pollute the suggestions list with commands that you will never use.
-
-####Known Issues
-
-* The trigger key will not show the command line if Windows Taskbar is under the focus.
-
-####Contributors
-
-* [Brian Peiris](https://github.com/brianpeiris)
+- [Enso Google Project](https://code.google.com/p/enso/) (no longer maintained)
+- [Enso Project in Launchpad](https://launchpad.net/enso) (no longer maintained)
+- [Enso 2.0 Design Thoughts](http://www.azarask.in/blog/post/enso-20-design-thoughts/)
+- [More Enso Commands](http://www.azarask.in/blog/post/more-enso-commands-for-free/)
