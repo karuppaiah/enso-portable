@@ -22,7 +22,7 @@ Enso allows you to launch programs found in the Windows Start Menu (or picked ma
 
 - There is no need to hold down the Caps Lock key as in the original version (you only need to hit it once; this setting can be adjusted in the 'enso-portable\enso\enso\config.py' file).
 - Use the `help` command to get the list of available commands.
-- To add a new command, you need to create a Python file (*.py) with its source code in the 'enso-portable\enso\commands' folder (you can use [text_tools.py](https://github.com/thdoan/enso-portable/blob/master/enso/commands/text_tools.py) as a template; see the [docs](https://github.com/thdoan/enso-portable/blob/master/enso/docs/enso-docs.txt) for more info).
+- To add a new command, you need to create a Python file (*.py) with its source code in the 'enso-portable\enso\commands' folder, or add to an existing Python command file if the functionality is related (you can use [text_tools.py](https://github.com/thdoan/enso-portable/blob/master/enso/commands/text_tools.py) as a template; see the [docs](https://github.com/thdoan/enso-portable/blob/master/enso/docs/enso-docs.txt) for more info).
 - If you have no need for a command, you can turn it off by moving it to the 'enso-portable\enso\commands_OFF' folder. This way you do not pollute the suggestions list with commands that you will never use.
 
 #### Background
