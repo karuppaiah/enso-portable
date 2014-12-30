@@ -1,7 +1,7 @@
 *.pyc
-/launcher/launcher/*.user
-/enso/run-enso.exe
-/enso/python
+/enso-portable.7z.sfx.exe
 /enso/*.ilk
 /enso/help.html
-/enso-portable.7z.sfx.exe
+/enso/run-enso.exe
+/enso/python
+/launcher/launcher/*.user

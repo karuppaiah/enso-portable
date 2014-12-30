@@ -1,14 +1,10 @@
 ## Enso Portable
 
-A portable distribution of the *community* version of Humanized Enso Launcher for Windows with some additional commands
-
-(C) 2011-2012 g/christensen (gchristnsn@gmail.com)
-
-v0.1.4
+A fork of [GChristensen's portable distribution](https://github.com/GChristensen/enso-portable) of the *community* version of Humanized Enso Launcher for Windows (with additional commands and functionality).
 
 ---
 
-<img src="https://raw.github.com/GChristensen/enso-portable/master/screen.jpg" />
+<img src="https://raw.github.com/GChristensen/enso-portable/master/screen.jpg">
 
 Description: the Enso Launcher application allows to launch programs found in the Windows Start menu (or picked manually using the `learn as open' command) and perform many other operations with text command line
 triggered by pressing the CAPSLOCK key. It's possible to create your own commands using the Python (version 2.5) programming language.
