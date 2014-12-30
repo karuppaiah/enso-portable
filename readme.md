@@ -10,7 +10,7 @@ A fork of [GChristensen's portable distribution](https://github.com/GChristensen
 
 Enso is a GUI-less application launcher that is both influenced by and dedicated in memory of [Jef Raskin](http://en.wikipedia.org/wiki/Jef_Raskin), the father of the Apple Macintosh project. It incorporates many ideas about human-computer interfaces from Jef's book, [The Humane Interface](http://en.wikipedia.org/wiki/The_Humane_Interface). In fact, Enso's original developer, Humanized, was led by Jef's son [Aza Raskin](http://www.azarask.in/blog/post/enso_beta_hints_1/).
 
-Enso allows you to launch programs found in the Windows Start Menu (or picked manually using the `learn as open` command), and perform many other operations from the command line triggered by pressing the Caps Lock key. It's possible to extend Enso and easily create your own commands using the Python (version 2.5) programming language.
+Enso allows you to launch programs found in the Windows Start Menu (or picked manually using the `learn as open` command), and perform many other operations from the command line triggered by pressing the Caps Lock key. It's possible to extend Enso and easily create your own commands using the Python programming language.
 
 #### Installation
 
