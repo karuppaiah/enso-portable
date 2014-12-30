@@ -47,7 +47,7 @@ GChristensen: I haven't found any Enso command package suitable for my needs, so
 
 - **system.py** - System commands:
 
-	* `kill [process name or ID]` - kill a process using its executable name (without extension) or ID
+	* `kill [process name or ID]` - kill a process using its executable name (without extension) or process ID
 
 - **dial.py** - Dial-up network related commands:
 
@@ -57,7 +57,7 @@ GChristensen: I haven't found any Enso command package suitable for my needs, so
 - **idgen.py** - Commands to generate ID strings:
 
 	* `guid [format]` - generate a UUID in several formats (upper/lower case, numeric)
-	* `random [from num to num]` - generate a random number in the Int32 positive range [0-2147483646]
+	* `random [from num to num]` - generate a random number in the Int32 positive range (0–2147483646)
 
 - **lingvo.py** - Control ABBYY Lingvo dictionary software. It's possible to specify translation direction (see command help for details).
 
@@ -69,7 +69,7 @@ GChristensen: I haven't found any Enso command package suitable for my needs, so
 	* `truecrypt mount [letter]` - mount a TrueCrypt volume assigned to the specified letter
 	* `truecrypt umount` - unmount all mounted volumes
 
-- **dd_wrt.py** - A set of dd-wrt shortcut commands (requires terminal access to a [dd-wrt](http://www.dd-wrt.com) router). WARNING: Does not work out of the box (hacking required).
+- **dd_wrt.py** - A set of DD-WRT shortcut commands (requires terminal access to a [DD-WRT](http://www.dd-wrt.com/) router). WARNING: Does not work out of the box (hacking required).
 
 	* `wake slave` - send a magic packet to a workstation with MAC address hard-coded in the command file
 	* `switch wireless` - turn wireless radio on/off
@@ -77,7 +77,7 @@ GChristensen: I haven't found any Enso command package suitable for my needs, so
 
 #### Dependencies
 
-- Python 2.5 (download the 7z archive from the link in the Installation section)
+- [Python 2.5](http://thdoan.github.io/enso-portable/downloads/python.7z)
 - ABBYY Lingvo dictionary software (optional)
 
 #### Known Issues
