@@ -338,9 +338,7 @@ class cWindow:
         win32gui.SetForegroundWindow(self._hwnd)
 
     def Close(self):
-        '''seems to only minimize the window'''
-        win32gui.CloseWindow(self._hwnd)
-##      win32gui.DestroyWindow(self._hwnd) # gives me 'access is denied' error
+        win32gui.SendMessage(self._hwnd, win32con.WM_CLOSE, 0, 0)
 
     def Maximize(self):
         win32gui.ShowWindow(self._hwnd, win32con.SW_MAXIMIZE)
@@ -475,7 +473,7 @@ By: Scott O. Nelson (aka "SirGnip")
 '''
 
 class WindowsTaskbar:
-    
+
     ABM_GETSTATE = 4
     ABM_SETSTATE = 10
 
@@ -489,7 +487,7 @@ class WindowsTaskbar:
                 ("top", ctypes.c_long),
                 ("right", ctypes.c_long),
                 ("bottom", ctypes.c_long)
-            ]        
+            ]
 
         _fields_ = [
             ("cbSize", ctypes.c_long),
@@ -698,6 +696,12 @@ def cmd_restore(ensoapi):
 def cmd_unmaximize(ensoapi):
     """ Unmaximize window if it is maximized """
     cmd_restore(ensoapi)
+
+
+def cmd_close(ensoapi):
+    """ Close the window currently in the foreground """
+    win = DESK.GetForegroundWindow()
+    win.Close()
 
 
 class MinimizeAllWindows(CommandObject):
